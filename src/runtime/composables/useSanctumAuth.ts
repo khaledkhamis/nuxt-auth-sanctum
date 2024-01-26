@@ -3,7 +3,6 @@ import { useSanctumClient } from './useSanctumClient';
 import { useSanctumUser } from './useSanctumUser';
 import { navigateTo, useNuxtApp, useRoute, useRuntimeConfig } from '#app';
 import type { SanctumModuleOptions } from '../../types';
-import { cli } from 'nitropack/dist/shared/nitro.f34e6224';
 
 export interface SanctumAuth<T> {
     user: Ref<T | null>;
@@ -37,9 +36,11 @@ export const useSanctumAuth = <T>(): SanctumAuth<T> => {
         user.value = await client<T>(options.endpoints.user);
     }
 
-
-    async function twoFactor(credentials: Record<string, any>){
-        await client(options.endpoints.twoFactorChallenge, { method: "post", body:credentials });
+    async function twoFactor(credentials: Record<string, any>) {
+        await client(options.endpoints.twoFactorChallenge, {
+            method: 'post',
+            body: credentials,
+        });
         await handleAfterLogin();
     }
 
@@ -68,12 +69,11 @@ export const useSanctumAuth = <T>(): SanctumAuth<T> => {
             body: credentials,
         });
 
-        if(options.enableTwoFactorAuthentication) {
+        if (options.enableTwoFactorAuthentication) {
             twoFactorRequired.value = response[options.twoFactorResponseKey];
         }
 
         await handleAfterLogin();
-
     }
 
     async function handleAfterLogin() {
@@ -119,6 +119,6 @@ export const useSanctumAuth = <T>(): SanctumAuth<T> => {
         logout,
         refreshIdentity,
         twoFactorRequired,
-        twoFactor
+        twoFactor,
     } as SanctumAuth<T>;
 };

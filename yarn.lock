@@ -6482,9 +6482,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nuxt-auth-sanctum@workspace:.":
+"nuxt-auth-sanctum-mfa@workspace:.":
   version: 0.0.0-use.local
-  resolution: "nuxt-auth-sanctum@workspace:."
+  resolution: "nuxt-auth-sanctum-mfa@workspace:."
   dependencies:
     "@nuxt/devtools": latest
     "@nuxt/eslint-config": ^0.2.0

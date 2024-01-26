@@ -38,7 +38,7 @@ export default defineNuxtConfig({
             login: '/login',
             logout: '/logout',
             user: '/user',
-            twoFactorChallenge: '/two-factor-challenge'
+            twoFactorChallenge: '/two-factor-challenge',
         },
     },
     devtools: { enabled: true },

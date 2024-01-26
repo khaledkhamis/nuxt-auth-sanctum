@@ -29,7 +29,7 @@ export default defineNuxtModule<SanctumModuleOptions>({
             login: '/login',
             logout: '/logout',
             user: '/api/user',
-            twoFactorChallenge: '/api/two-factor-challenge'
+            twoFactorChallenge: '/api/two-factor-challenge',
         },
         csrf: {
             cookie: 'XSRF-TOKEN',
@@ -53,10 +53,10 @@ export default defineNuxtModule<SanctumModuleOptions>({
         const publicConfig = nuxt.options.runtimeConfig.public;
         const userModuleConfig = publicConfig.sanctum;
 
-        nuxt.options.runtimeConfig.public.sanctum = defu(
-            userModuleConfig,
-            options
-        ) as SanctumModuleOptions;
+        nuxt.options.runtimeConfig.public.sanctum = defu<
+            SanctumModuleOptions,
+            any
+        >(userModuleConfig, options) as SanctumModuleOptions;
 
         addImportsDir(resolver.resolve('./runtime/composables'));
 

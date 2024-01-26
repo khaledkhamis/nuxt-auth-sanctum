@@ -48,7 +48,7 @@ async function onTwoFactorSubmit() {
 
 const toggleRecoveryCode = () => {
     useRecoveryCode.value ^= true;
-}
+};
 </script>
 
 <template>
@@ -58,12 +58,16 @@ const toggleRecoveryCode = () => {
         we can redirect you there
     </div>
 
-    <div>two factor required? {{twoFactorRequired}}</div>
+    <div>two factor required? {{ twoFactorRequired }}</div>
     <h2>Login form</h2>
 
     <p v-if="loginError" class="error-message">Error - {{ loginError }}</p>
 
-    <form v-if="!twoFactorRequired" class="login-form" @submit.prevent="onFormSubmit">
+    <form
+        v-if="!twoFactorRequired"
+        class="login-form"
+        @submit.prevent="onFormSubmit"
+    >
         <div class="input-group">
             <label for="email">User email</label>
             <input
@@ -96,24 +100,23 @@ const toggleRecoveryCode = () => {
         </div>
 
         <button type="submit">Log in</button>
-
-
     </form>
 
-    <p v-if="twoFactorError" class="error-message">Error - {{ twoFactorError }}</p>
+    <p v-if="twoFactorError" class="error-message">
+        Error - {{ twoFactorError }}
+    </p>
 
     <form v-if="twoFactorRequired" @submit.prevent="onTwoFactorSubmit">
         <div v-if="useRecoveryCode" class="input-group">
             <label for="email">Recovery Code</label>
             <input
-
                 id="recovery_code"
                 v-model="twoFactorCredentials.recovery_code"
                 type="text"
                 name="recovery_code"
             />
         </div>
-        <div  v-else class="input-group">
+        <div v-else class="input-group">
             <label for="email">Auth Code</label>
             <input
                 id="code"
@@ -121,10 +124,13 @@ const toggleRecoveryCode = () => {
                 type="text"
                 name="code"
             />
-
         </div>
-        <a v-if="!useRecoveryCode" href="#" @click.prevent="toggleRecoveryCode">use recovery code instead?</a>
-        <a v-else href="#" @click.prevent="toggleRecoveryCode">use Authentication code</a>
+        <a v-if="!useRecoveryCode" href="#" @click.prevent="toggleRecoveryCode"
+            >use recovery code instead?</a
+        >
+        <a v-else href="#" @click.prevent="toggleRecoveryCode"
+            >use Authentication code</a
+        >
         <div class="input-group">
             <label for="remember">Remember me</label>
             <input
@@ -135,7 +141,6 @@ const toggleRecoveryCode = () => {
             />
         </div>
         <button type="submit">Log in</button>
-
     </form>
 </template>
 
