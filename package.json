@@ -1,11 +1,11 @@
 {
-  "name": "nuxt-auth-sanctum",
-  "version": "0.0.17",
+  "name": "nuxt-auth-sanctum-mfa",
+  "version": "0.0.18",
   "author": "Artem Manchenkov",
   "description": "Nuxt module for Laravel Sanctum authentication",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/manchenkoff/nuxt-auth-sanctum.git"
+    "url": "git+https://github.com/khaledkhamis/nuxt-auth-sanctum.git"
   },
   "license": "MIT",
   "type": "module",
