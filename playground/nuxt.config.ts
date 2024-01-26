@@ -8,16 +8,17 @@ export default defineNuxtConfig({
     runtimeConfig: {
         public: {
             sanctum: {
-                baseUrl: 'http://localhost:80',
+                baseUrl: 'https://equifund-backend.co.cc',
                 userStateKey: 'sanctum.user.identity',
             },
         },
     },
     sanctum: {
-        baseUrl: 'http://localhost:80',
-        origin: 'http://localhost:3000',
+        baseUrl: 'https://equifund-backend.co.cc',
+        origin: 'https://auth.equifund-backend.co.cc',
         userStateKey: 'sanctum.user.identity',
         redirectIfAuthenticated: false,
+        enableTwoFactorAuthentication: true,
         client: {
             retry: false,
         },
@@ -34,9 +35,10 @@ export default defineNuxtConfig({
         },
         endpoints: {
             csrf: '/sanctum/csrf-cookie',
-            login: '/api/login',
-            logout: '/api/logout',
-            user: '/api/user',
+            login: '/login',
+            logout: '/logout',
+            user: '/user',
+            twoFactorChallenge: '/two-factor-challenge'
         },
     },
     devtools: { enabled: true },

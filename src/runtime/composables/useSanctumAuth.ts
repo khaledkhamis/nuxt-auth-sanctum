@@ -1,13 +1,16 @@
-import { type Ref, computed } from 'vue';
+import { type Ref, computed, ref } from 'vue';
 import { useSanctumClient } from './useSanctumClient';
 import { useSanctumUser } from './useSanctumUser';
 import { navigateTo, useNuxtApp, useRoute, useRuntimeConfig } from '#app';
 import type { SanctumModuleOptions } from '../../types';
+import { cli } from 'nitropack/dist/shared/nitro.f34e6224';
 
 export interface SanctumAuth<T> {
     user: Ref<T | null>;
     isAuthenticated: Ref<boolean>;
+    twoFactorRequired: Ref<boolean>;
     login: (credentials: Record<string, any>) => Promise<void>;
+    twoFactor: (credentials: Record<string, any>) => Promise<void>;
     logout: () => Promise<void>;
     refreshIdentity: () => Promise<void>;
 }
@@ -28,8 +31,16 @@ export const useSanctumAuth = <T>(): SanctumAuth<T> => {
         return user.value !== null;
     });
 
+    const twoFactorRequired = ref(false);
+
     async function refreshIdentity() {
         user.value = await client<T>(options.endpoints.user);
+    }
+
+
+    async function twoFactor(credentials: Record<string, any>){
+        await client(options.endpoints.twoFactorChallenge, { method: "post", body:credentials });
+        await handleAfterLogin();
     }
 
     /**
@@ -52,13 +63,21 @@ export const useSanctumAuth = <T>(): SanctumAuth<T> => {
             await nuxtApp.runWithContext(() => navigateTo(redirect));
         }
 
-        await client(options.endpoints.login, {
+        const response = await client(options.endpoints.login, {
             method: 'post',
             body: credentials,
         });
 
-        await refreshIdentity();
+        if(options.enableTwoFactorAuthentication) {
+            twoFactorRequired.value = response[options.twoFactorResponseKey];
+        }
 
+        await handleAfterLogin();
+
+    }
+
+    async function handleAfterLogin() {
+        await refreshIdentity();
         if (options.redirect.keepRequestedRoute) {
             const route = useRoute();
             const requestedRoute = route.query.redirect as string | undefined;
@@ -99,5 +118,7 @@ export const useSanctumAuth = <T>(): SanctumAuth<T> => {
         login,
         logout,
         refreshIdentity,
+        twoFactorRequired,
+        twoFactor
     } as SanctumAuth<T>;
 };

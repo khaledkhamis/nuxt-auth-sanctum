@@ -21,12 +21,15 @@ export default defineNuxtModule<SanctumModuleOptions>({
         baseUrl: 'http://localhost:80',
         origin: 'http://localhost:3000',
         userStateKey: 'sanctum.user.identity',
+        twoFactorResponseKey: 'two_factor',
         redirectIfAuthenticated: false,
+        enableTwoFactorAuthentication: false,
         endpoints: {
             csrf: '/sanctum/csrf-cookie',
             login: '/login',
             logout: '/logout',
             user: '/api/user',
+            twoFactorChallenge: '/api/two-factor-challenge'
         },
         csrf: {
             cookie: 'XSRF-TOKEN',

@@ -18,6 +18,10 @@ export interface SanctumEndpoints {
      * The endpoint to fetch current user data.
      */
     user: string;
+    /**
+     * The endpoint to submit Two factor authentication code or recovery code.
+     */
+    twoFactorChallenge: string;
 }
 
 /**
@@ -91,9 +95,17 @@ export interface SanctumModuleOptions {
      */
     userStateKey: string;
     /**
+     * The key to use to check if two-factor challenge is required.
+     */
+    twoFactorResponseKey: string;
+    /**
      * Determine to redirect when user is authenticated.
      */
     redirectIfAuthenticated: boolean;
+    /**
+     * Determine to whether two-factor authentication is enabled.
+     */
+    enableTwoFactorAuthentication: boolean;
     /**
      * Laravel Sanctum endpoints to be used by the client.
      */
